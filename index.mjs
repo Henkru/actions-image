@@ -23,6 +23,7 @@ async function run() {
         const IMG_ENDPOINT = core.getInput('uploadHost') || defaultHost;
         const annotationTag = core.getInput('annotationTag') || '[--]';
         const annotationLevel = core.getInput('annotationLevel') || 'notice';
+        const checksName = core.getInput('checksName') || '@edunad/actions-image';
 
         const octokit = getOctokit(token);
         const globber = await glob.create(pathGlob, { followSymbolicLinks: false, matchDirectories: false });
@@ -160,7 +161,7 @@ async function run() {
         octokit.rest.checks
             .create({
                 head_sha: context.payload.pull_request.head.sha,
-                name: '@edunad/actions-image',
+                name: checksName,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 completed_at: new Date().toISOString(),
